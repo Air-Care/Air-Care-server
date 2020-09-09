@@ -1,0 +1,32 @@
+
+{
+  "env": {
+      "node": true,
+      "es2020": true,
+      "jest": true
+  },
+  "extends": [
+      "airbnb",
+      "prettier"
+  ],
+  "plugins": ["prettier"],
+  "rules": {
+      "prettier/prettier": ["warn"],
+      "arrow-body-style": ["error", "as-needed"],
+      "default-case-last": "error",
+      "default-param-last": ["error"],
+      "func-style": ["off", "expression"],
+      "no-constant-condition": "error",
+      "no-useless-call": "error",
+      "prefer-exponentiation-operator": "error",
+      "prefer-regex-literals": "error",
+      "quotes": [
+          "error",
+          "single",
+          {
+              "avoidEscape": true,
+              "allowTemplateLiterals": false
+          }
+      ]
+  }
+}
