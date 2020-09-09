@@ -1,6 +1,8 @@
 const graphql = require('graphql');
+const { getFires } = require('./controllers/fireController');
+const { getAirQuality } = require('./controllers/airQualityController');
 
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLFloat } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLFloat } = graphql;
 
 const salutations = ['Hello', 'Hi', 'How are you'];
 
@@ -12,12 +14,21 @@ const GreetingType = new GraphQLObjectType({
   }),
 });
 
+const FireType = new GraphQLObjectType({
+  name: 'Fire',
+  fields: () => ({
+    latitude: { type: GraphQLFloat },
+    longitude: { type: GraphQLFloat },
+  }),
+});
+
 const ReportType = new GraphQLObjectType({
   name: 'Report',
   fields: () => ({
-    // Array of arrays type: [[GraphQLFloat, GraphQLFloat]] ?
-    fires: [],
-    aqi: GraphQLInt,
+    aqi: { type: GraphQLInt },
+    fires: {
+      type: new GraphQLList(FireType),
+    },
   }),
 });
 
@@ -40,27 +51,20 @@ const RootQuery = new GraphQLObjectType({
       type: ReportType,
       args: { latitude: { type: GraphQLFloat }, longitude: { type: GraphQLFloat } },
       resolve(parent, args) {
-        const { latitude, longitude } = args;
-        function nearestMinute(coord) {
-          const split = coord.toString().split('.');
-          const truncatedMin = Math.round((split[1] * 60) / 10 ** split[1].length) / 60;
-          return Number(split[0]) + truncatedMin;
-        }
-        // Might have to constrict the number of decimal places
-        const roundedLatitude = nearestMinute(latitude);
-        const roundedLongitude = nearestMinute(longitude);
-        // probably incorrect syntax - do something with .then()?
-        const fires = getFires(roundedLatitude, roundedLongitude);
-        const aqi = getAQI(roundedLongitude, roundedLongitude);
-        /* 
-          Probably handled by the getFires/getAQI functions?
-            use lat/long with real request to api for fires: https://api.breezometer.com/fires/v1/current-conditions?lat={latitude}&lon={longitude}&key=YOUR_API_KEY&radius={radius}
-            use lat/long with real request for aqi: https://api.breezometer.com/air-quality/v2/current-conditions?lat={latitude}&lon={longitude}&key=YOUR_API_KEY&features={Features_List}
-        */
-        return {
-          fires,
-          aqi,
-        };
+        let { latitude, longitude } = args;
+
+        latitude = latitude.toFixed(1);
+        longitude = longitude.toFixed(1);
+
+        return Promise.all([
+          getFires({ latitude, longitude }),
+          getAirQuality({ latitude, longitude }),
+        ])
+          .then(([fires, aqi]) => ({ fires, aqi }))
+          .catch((err) => {
+            console.error(`ERROR getting fire & aqi data: ${err}`);
+            return { fires: [], aqi: NaN };
+          });
       },
     },
   },
