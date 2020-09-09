@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { AirQuality } = require('../models/air-quality-model');
+const { AirQuality } = require('../models/airQualityModel');
 
 const { BREEZOMETER_API } = process.env;
 
@@ -22,6 +22,7 @@ async function getAirQuality({ latitude, longitude }) {
 
     return aqi;
   } catch (err) {
+    console.error(`ERROR getting air quality data: ${err}`);
     return NaN;
   }
 }

@@ -1,8 +1,10 @@
-const { Schema, model } = require('./connect-db');
+const mongoose = require('./connectDB');
+
+const { Schema, model } = mongoose;
 
 const airQualitySchema = new Schema({
-  latitude: String,
-  longitude: String,
+  latitude: Number,
+  longitude: Number,
   aqi: Number,
   lastRetrieved: { type: Date, default: Date.now, expires: '2h' },
 });

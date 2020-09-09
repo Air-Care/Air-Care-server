@@ -1,9 +1,11 @@
-const { Schema, model } = require('./connect-db');
+const mongoose = require('./connectDB');
+
+const { Schema, model } = mongoose;
 
 const fireSchema = new Schema({
-  latitude: String,
-  longitude: String,
-  fires: [{ latitude: String, longitude: String }],
+  latitude: Number,
+  longitude: Number,
+  fires: [{ latitude: Number, longitude: Number }],
   lastRetrieved: { type: Date, default: Date.now, expires: '18h' },
 });
 

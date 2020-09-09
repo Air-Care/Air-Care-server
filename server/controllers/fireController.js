@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Fires } = require('../models/fire-model');
+const { Fires } = require('../models/fireModel');
 
 const { BREEZOMETER_API } = process.env;
 
@@ -16,7 +16,7 @@ async function getFires({ latitude, longitude }) {
       );
       fires = data.data.fires
         .filter(({ confidence }) => confidence === 'High')
-        .map(({ lat, lon }) => ({ latitude: lat.toString(), longitude: lon.toString() }));
+        .map(({ lat, lon }) => ({ latitude: lat, longitude: lon }));
       Fires.create({ latitude, longitude, fires }).catch((err) =>
         console.error(`ERROR writing Fires to DB: ${err}`)
       );
@@ -24,6 +24,7 @@ async function getFires({ latitude, longitude }) {
 
     return fires;
   } catch (err) {
+    console.error(`ERROR getting fire data: ${err}`);
     return [];
   }
 }
