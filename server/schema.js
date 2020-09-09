@@ -14,18 +14,11 @@ const GreetingType = new GraphQLObjectType({
   }),
 });
 
-const PositionType = new GraphQLObjectType({
-  name: 'Position',
-  fields: () => ({
-    lat: { type: GraphQLFloat },
-    lon: { type: GraphQLFloat },
-  }),
-});
-
 const FireType = new GraphQLObjectType({
   name: 'Fire',
   fields: () => ({
-    position: { type: PositionType },
+    longitude: { type: GraphQLFloat },
+    latitude: { type: GraphQLFloat },
   }),
 });
 
@@ -70,7 +63,7 @@ const RootQuery = new GraphQLObjectType({
           .then(([fires, aqi]) => ({ fires, aqi }))
           .catch((err) => {
             console.error(`ERROR getting fire & aqi data: ${err}`);
-            return { fires: [], aqi: NaN };
+            return { fires: [], aqi: -1 };
           });
       },
     },

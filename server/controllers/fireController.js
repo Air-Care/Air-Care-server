@@ -17,7 +17,7 @@ async function getFires({ latitude, longitude }) {
       const data = await response.json();
       fires = data.data.fires
         .filter(({ confidence }) => confidence === 'High')
-        .map(({ lat, lon }) => ({ latitude: lat, longitude: lon }));
+        .map(({ position: { lat, lon } }) => ({ latitude: lat, longitude: lon }));
       Fires.create({ latitude, longitude, fires }).catch((err) =>
         console.error(`ERROR writing Fires to DB: ${err}`)
       );
