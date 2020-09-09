@@ -18,12 +18,12 @@
   },
   "homepage": "https://github.com/Air-Care/Air-Care-server#readme",
   "dependencies": {
-    "axios": "^0.20.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
-    "mongoose": "^5.10.3"
+    "mongoose": "^5.10.3",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "eslint": "^7.2.0",
