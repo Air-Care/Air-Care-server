@@ -2,30 +2,13 @@ const graphql = require('graphql');
 const { getFires } = require('./controllers/fireController');
 const { getAirQuality } = require('./controllers/airQualityController');
 
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLFloat } = graphql;
-
-const salutations = ['Hello', 'Hi', 'How are you'];
-
-const GreetingType = new GraphQLObjectType({
-  name: 'Greeting',
-  fields: () => ({
-    salutation: { type: GraphQLString },
-    name: { type: GraphQLString },
-  }),
-});
-
-const PositionType = new GraphQLObjectType({
-  name: 'Position',
-  fields: () => ({
-    lat: { type: GraphQLFloat },
-    lon: { type: GraphQLFloat },
-  }),
-});
+const { GraphQLObjectType, GraphQLInt, GraphQLList, GraphQLFloat } = graphql;
 
 const FireType = new GraphQLObjectType({
   name: 'Fire',
   fields: () => ({
-    position: { type: PositionType },
+    latitude: { type: GraphQLFloat },
+    longitude: { type: GraphQLFloat },
   }),
 });
 
@@ -42,26 +25,14 @@ const ReportType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    greeting: {
-      type: GreetingType,
-      args: { name: { type: GraphQLString } },
-      resolve(parent, args) {
-        const { name } = args;
-        const salutation = salutations[name.charCodeAt(0) % 3];
-        return {
-          salutation,
-          name,
-        };
-      },
-    },
     report: {
       type: ReportType,
       args: { latitude: { type: GraphQLFloat }, longitude: { type: GraphQLFloat } },
       resolve(parent, args) {
         let { latitude, longitude } = args;
 
-        latitude = Number(latitude.toFixed(1)).toFixed(6);
-        longitude = Number(longitude.toFixed(1)).toFixed(6);
+        latitude = latitude.toFixed(1);
+        longitude = longitude.toFixed(1);
 
         return Promise.all([
           getFires({ latitude, longitude }),
@@ -69,7 +40,9 @@ const RootQuery = new GraphQLObjectType({
         ])
           .then(([fires, aqi]) => ({ fires, aqi }))
           .catch((err) => {
-            console.error(`ERROR getting fire & aqi data: ${err}`);
+            console.error(
+              `Error resolving fire & aqi data on request LAT(${args.latitude}) LON(${args.longitude}):\n${err}`
+            );
             return { fires: [], aqi: NaN };
           });
       },

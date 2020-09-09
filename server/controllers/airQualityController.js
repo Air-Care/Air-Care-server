@@ -17,13 +17,17 @@ async function getAirQuality({ latitude, longitude }) {
       const data = await response.json();
       aqi = data.data.indexes.baqi.aqi;
       AirQuality.create({ latitude, longitude, aqi }).catch((err) =>
-        console.error(`ERROR writing AirQuality to DB: ${err}`)
+        console.error(
+          `Error writing AQI to database on request LAT(${latitude}) LON(${longitude}):\n${err}`
+        )
       );
     }
 
     return aqi;
   } catch (err) {
-    console.error(`ERROR getting air quality data: ${err}`);
+    console.error(
+      `Error retrieving AQI data on request LAT(${latitude}) LON(${longitude}):\n${err}`
+    );
     return -1;
   }
 }
