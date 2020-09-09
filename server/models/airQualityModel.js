@@ -1,6 +1,4 @@
-const mongoose = require('./connectDB');
-
-const { Schema, model } = mongoose;
+const { Schema, model } = require('./connectDB');
 
 const airQualitySchema = new Schema({
   latitude: Number,

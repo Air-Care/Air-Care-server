@@ -10,4 +10,6 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error(`ERROR connecting to MongoDB:\n${err}`));
 
-module.exports = { mongoose };
+const { Schema, model } = mongoose;
+
+module.exports = { Schema, model };
