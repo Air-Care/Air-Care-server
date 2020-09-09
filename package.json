@@ -1,0 +1,36 @@
+{
+  "name": "air-care-server",
+  "version": "0.0.1",
+  "description": "server for Air Care mobile app",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Air-Care/Air-Care-server.git"
+  },
+  "keywords": [],
+  "author": "Air-Care",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Air-Care/Air-Care-server/issues"
+  },
+  "homepage": "https://github.com/Air-Care/Air-Care-server#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "prettier": "npm:@btmills/prettier@^2.1.1"
+  }
+}
