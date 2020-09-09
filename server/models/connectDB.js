@@ -9,7 +9,7 @@ mongoose
     useCreateIndex: true,
   })
   .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error(`ERROR connecting to MongoDB:\n${err}`));
+  .catch((err) => console.error(`Error connecting to MongoDB:\n${err}`));
 
 const { Schema, model } = mongoose;
 
