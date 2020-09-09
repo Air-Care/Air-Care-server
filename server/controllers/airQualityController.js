@@ -14,7 +14,7 @@ async function getAirQuality({ latitude, longitude }) {
       const { data } = await axios.get(
         `https://api.breezometer.com/air-quality/v2/current-conditions?lat=${latitude}&lon=${longitude}&key=${BREEZOMETER_API}`
       );
-      aqi = data.data.indexes.aqi;
+      aqi = data.data.indexes.baqi.aqi;
       AirQuality.create({ latitude, longitude, aqi }).catch((err) =>
         console.error(`ERROR writing AirQuality to DB: ${err}`)
       );
