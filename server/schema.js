@@ -14,11 +14,18 @@ const GreetingType = new GraphQLObjectType({
   }),
 });
 
+const PositionType = new GraphQLObjectType({
+  name: 'Position',
+  fields: () => ({
+    lat: { type: GraphQLFloat },
+    lon: { type: GraphQLFloat },
+  }),
+});
+
 const FireType = new GraphQLObjectType({
   name: 'Fire',
   fields: () => ({
-    latitude: { type: GraphQLFloat },
-    longitude: { type: GraphQLFloat },
+    position: { type: PositionType },
   }),
 });
 
