@@ -1,30 +1,50 @@
 const graphql = require('graphql');
+const { getFires } = require('./controllers/fireController');
+const { getAirQuality } = require('./controllers/airQualityController');
 
-const { GraphQLObjectType, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLInt, GraphQLList, GraphQLFloat } = graphql;
 
-const salutations = ['Hello', 'Hi', 'How are you'];
-
-const GreetingType = new GraphQLObjectType({
-  name: 'Greeting',
+const FireType = new GraphQLObjectType({
+  name: 'Fire',
   fields: () => ({
-    salutation: { type: GraphQLString },
-    name: { type: GraphQLString },
+    latitude: { type: GraphQLFloat },
+    longitude: { type: GraphQLFloat },
+  }),
+});
+
+const ReportType = new GraphQLObjectType({
+  name: 'Report',
+  fields: () => ({
+    aqi: { type: GraphQLInt },
+    fires: {
+      type: new GraphQLList(FireType),
+    },
   }),
 });
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    greeting: {
-      type: GreetingType,
-      args: { name: { type: GraphQLString } },
+    report: {
+      type: ReportType,
+      args: { latitude: { type: GraphQLFloat }, longitude: { type: GraphQLFloat } },
       resolve(parent, args) {
-        const { name } = args;
-        const salutation = salutations[name.charCodeAt(0) % 3];
-        return {
-          salutation,
-          name,
-        };
+        let { latitude, longitude } = args;
+
+        latitude = latitude.toFixed(1);
+        longitude = longitude.toFixed(1);
+
+        return Promise.all([
+          getFires({ latitude, longitude }),
+          getAirQuality({ latitude, longitude }),
+        ])
+          .then(([fires, aqi]) => ({ fires, aqi }))
+          .catch((err) => {
+            console.error(
+              `Error resolving fire & aqi data on request LAT(${args.latitude}) LON(${args.longitude}):\n${err}`
+            );
+            return { fires: [], aqi: NaN };
+          });
       },
     },
   },
