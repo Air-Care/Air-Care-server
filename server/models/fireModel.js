@@ -7,8 +7,8 @@ const fireSchema = new Schema({
   lastRetrieved: { type: Date, default: Date.now, expires: '18h' },
 });
 
-const fire = model('fire', fireSchema);
+const Fires = model('fire', fireSchema);
 
 module.exports = {
-  fire,
+  Fires,
 };

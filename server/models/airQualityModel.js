@@ -7,8 +7,8 @@ const airQualitySchema = new Schema({
   lastRetrieved: { type: Date, default: Date.now, expires: '2h' },
 });
 
-const airQuality = model('air-quality', airQualitySchema);
+const AirQuality = model('air-quality', airQualitySchema);
 
 module.exports = {
-  airQuality,
+  AirQuality,
 };

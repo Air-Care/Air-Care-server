@@ -23,7 +23,7 @@ async function getAirQuality({ latitude, longitude }) {
     return aqi;
   } catch (err) {
     console.error(`ERROR getting air quality data: ${err}`);
-    return NaN;
+    return -1;
   }
 }
 

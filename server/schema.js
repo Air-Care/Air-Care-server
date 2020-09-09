@@ -2,7 +2,7 @@ const graphql = require('graphql');
 const { getFires } = require('./controllers/fireController');
 const { getAirQuality } = require('./controllers/airQualityController');
 
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLFloat } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLFloat } = graphql;
 
 const salutations = ['Hello', 'Hi', 'How are you'];
 
@@ -14,12 +14,21 @@ const GreetingType = new GraphQLObjectType({
   }),
 });
 
+const FireType = new GraphQLObjectType({
+  name: 'Fire',
+  fields: () => ({
+    latitude: { type: GraphQLFloat },
+    longitude: { type: GraphQLFloat },
+  }),
+});
+
 const ReportType = new GraphQLObjectType({
   name: 'Report',
   fields: () => ({
-    // Array of arrays type: [[GraphQLFloat, GraphQLFloat]] ?
-    fires: [],
-    aqi: GraphQLInt,
+    aqi: { type: GraphQLInt },
+    fires: {
+      type: new GraphQLList(FireType),
+    },
   }),
 });
 
