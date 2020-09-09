@@ -1,4 +1,4 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 const { AirQuality } = require('../models/airQualityModel');
 
 const { BREEZOMETER_API } = process.env;
@@ -11,10 +11,11 @@ async function getAirQuality({ latitude, longitude }) {
     if (result !== undefined) {
       aqi = result.aqi;
     } else {
-      const { data } = await axios.get(
+      const response = await fetch(
         `https://api.breezometer.com/air-quality/v2/current-conditions?lat=${latitude}&lon=${longitude}&key=${BREEZOMETER_API}`
       );
-      aqi = data.data.indexes.aqi;
+      const data = await response.json();
+      aqi = data.data.indexes.baqi.aqi;
       AirQuality.create({ latitude, longitude, aqi }).catch((err) =>
         console.error(`ERROR writing AirQuality to DB: ${err}`)
       );

@@ -53,8 +53,8 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         let { latitude, longitude } = args;
 
-        latitude = latitude.toFixed(1);
-        longitude = longitude.toFixed(1);
+        latitude = Number(latitude.toFixed(1)).toFixed(6);
+        longitude = Number(longitude.toFixed(1)).toFixed(6);
 
         return Promise.all([
           getFires({ latitude, longitude }),

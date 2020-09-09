@@ -1,4 +1,4 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 const { Fires } = require('../models/fireModel');
 
 const { BREEZOMETER_API } = process.env;
@@ -11,9 +11,10 @@ async function getFires({ latitude, longitude }) {
     if (result !== undefined) {
       fires = result.fires;
     } else {
-      const { data } = await axios.get(
+      const response = await fetch(
         `https://api.breezometer.com/fires/v1/current-conditions?lat=${latitude}&lon=${longitude}&key=${BREEZOMETER_API}&radius=30mi`
       );
+      const data = await response.json();
       fires = data.data.fires
         .filter(({ confidence }) => confidence === 'High')
         .map(({ lat, lon }) => ({ latitude: lat, longitude: lon }));
