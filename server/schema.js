@@ -9,7 +9,7 @@ const FireType = new GraphQLObjectType({
   fields: () => ({
     latitude: { type: GraphQLFloat },
     longitude: { type: GraphQLFloat },
-    update_time: { type: GraphQLString },
+    updateTime: { type: GraphQLString },
   }),
 });
 
