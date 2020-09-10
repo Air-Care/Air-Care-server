@@ -3,7 +3,7 @@ const { Schema, model } = require('./connectDB');
 const fireSchema = new Schema({
   latitude: Number,
   longitude: Number,
-  fires: [{ latitude: Number, longitude: Number }],
+  fires: [{ latitude: Number, longitude: Number, updateTime: String }],
   lastRetrieved: { type: Date, default: Date.now, expires: '18h' },
 });
 
