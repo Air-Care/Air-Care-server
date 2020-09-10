@@ -21,7 +21,7 @@ async function getFires({ latitude, longitude }) {
         .map(({ position: { lat, lon }, update_time }) => ({
           latitude: lat,
           longitude: lon
-          update_time,
+          update_time: update_time,
         }));
       Fires.create({ latitude, longitude, fires }).catch((err) =>
         console.error(
