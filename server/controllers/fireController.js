@@ -20,8 +20,8 @@ async function getFires({ latitude, longitude }) {
         .filter(({ confidence }) => confidence === 'High')
         .map(({ position: { lat, lon }, update_time }) => ({
           latitude: lat,
-          longitude: lon,
-          update_time: update_time,
+          longitude: lon
+          update_time,
         }));
       Fires.create({ latitude, longitude, fires }).catch((err) =>
         console.error(
