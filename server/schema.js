@@ -2,13 +2,14 @@ const graphql = require('graphql');
 const { getFires } = require('./controllers/fireController');
 const { getAirQuality } = require('./controllers/airQualityController');
 
-const { GraphQLObjectType, GraphQLInt, GraphQLList, GraphQLFloat } = graphql;
+const { GraphQLObjectType, GraphQLInt, GraphQLList, GraphQLFloat, GraphQLString } = graphql;
 
 const FireType = new GraphQLObjectType({
   name: 'Fire',
   fields: () => ({
     latitude: { type: GraphQLFloat },
     longitude: { type: GraphQLFloat },
+    update_time: { type: GraphQLString },
   }),
 });
 
