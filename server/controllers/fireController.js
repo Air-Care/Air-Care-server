@@ -12,7 +12,7 @@ async function getFires({ latitude, longitude }) {
       fires = result.fires;
     } else {
       const response = await fetch(
-        `https://api.breezometer.com/fires/v1/current-conditions?lat=${latitude}&lon=${longitude}&key=${BREEZOMETER_API}&radius=30&unit=imperial`
+        `https://api.breezometer.com/fires/v1/current-conditions?lat=${latitude}&lon=${longitude}&key=${BREEZOMETER_API}&radius=62&unit=imperial`
       );
       const data = await response.json();
 
