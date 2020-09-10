@@ -23,7 +23,6 @@ async function getFires({ latitude, longitude }) {
           longitude: lon,
           update_time,
         }));
-      console.log('fires: ', fires);
       Fires.create({ latitude, longitude, fires }).catch((err) =>
         console.error(
           `Error writing fires to database on request LAT(${latitude}) LON(${longitude}):\n${err}`
